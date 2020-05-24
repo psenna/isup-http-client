@@ -1,9 +1,9 @@
-package isup_http_test
+package isuphttp_test
 
 import (
 	"testing"
 
-	"github.com/psenna/isup-http-client/isup_http"
+	"github.com/psenna/isup-http-client/isuphttp"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,7 +28,7 @@ func TestGetHTTPRequestTimeOut(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		request := isup_http.GetHTTPRequest(test.apiMethod, test.apiURL)
+		request := isuphttp.GetHTTPRequest(test.apiMethod, test.apiURL)
 
 		if test.timeOut != 0 {
 			request = request.SetTimeOut(test.timeOut)
@@ -51,7 +51,7 @@ func TestGetHTTPRequestHeaders(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		request := isup_http.GetHTTPRequest(test.apiMethod, test.apiURL)
+		request := isuphttp.GetHTTPRequest(test.apiMethod, test.apiURL)
 
 		request = request.SetHeaders(test.headers)
 

@@ -1,4 +1,4 @@
-package isup_http
+package isuphttp
 
 import (
 	"bytes"
