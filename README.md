@@ -1,4 +1,7 @@
 # isup-http-client
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/psenna/isup-http-client)](https://goreportcard.com/report/github.com/psenna/isup-http-client)
+
 Http client from isup
 
 # testing 
