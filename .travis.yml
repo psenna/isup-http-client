@@ -12,7 +12,7 @@ env:
       - GOARCH=amd64
 
 before_install:
-  - go get
+  - go mod download
 
 script:
   - go test ./... -coverprofile=covarage.txt
