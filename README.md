@@ -7,7 +7,7 @@ Http client from isup
 
 # testing 
 
-go test ./... -coverprofile=cover.out
+go test ./... -coverprofile=cover.out -covermode=atomic
 
 go tool cover -func=cover.out
 
