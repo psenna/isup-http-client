@@ -1,0 +1,21 @@
+language: go
+
+go:
+    - 1.14.x
+
+sudo: false
+
+env:
+    global:
+      - GOPROXY=https://proxy.golang.org
+      - GO111MODULE=on
+      - GOARCH=amd64
+
+before_install:
+  - go get
+
+script:
+  - go test ./... -coverprofile=covarage.txt
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
