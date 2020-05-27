@@ -129,28 +129,25 @@ func (h HTTPRequest) ToGoHTTPRequest() (*http.Request, error) {
 func (h HTTPRequest) getURLWithQueryParans() (url string) {
 	url = h.url
 
+	if len(h.queryParams) == 0 {
+		return
+	}
+
 	if !strings.Contains(url, "?") {
 		url += "?"
 	}
 
-	for index, val := range h.formParams {
-		switch val.(type) {
-		case int:
-			url += fmt.Sprintf("&%s=%v", index, val)
-		case float32:
-			url += fmt.Sprintf("&%s=%v", index, val)
-		case float64:
-			url += fmt.Sprintf("&%s=%v", index, val)
-		case string:
-			url += fmt.Sprintf("&%s=%v", index, val)
-		case bool:
-			if val.(bool) {
+	for index, val := range h.queryParams {
+		if v, ok := val.(bool); ok {
+			if v {
 				url += fmt.Sprintf("&%s=true", index)
 			} else {
 				url += fmt.Sprintf("&%s=false", index)
 			}
+		} else {
+			url += fmt.Sprintf("&%s=%v", index, val)
 		}
 	}
 
-	return url
+	return
 }
