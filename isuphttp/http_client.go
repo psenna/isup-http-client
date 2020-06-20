@@ -3,7 +3,9 @@ package isuphttp
 import (
 	"crypto/tls"
 	"fmt"
+	"net"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -40,9 +42,7 @@ func (c HTTPClient) httpRequest(request HTTPRequest) HTTPResponse {
 	elapsed := time.Since(start)
 
 	if err != nil {
-		fmt.Println(err)
-		// todo Err handler
-		return HTTPResponse{}
+		return c.handleRequestError(err)
 	}
 
 	defer response.Body.Close()
@@ -56,14 +56,31 @@ func (c HTTPClient) httpRequest(request HTTPRequest) HTTPResponse {
 	return returnresponse
 }
 
+func (c HTTPClient) handleRequestError(err error) HTTPResponse {
+	if strings.Contains(err.Error(), "(Client.Timeout exceeded while awaiting headers)") {
+		return HTTPResponse{Error: err.Error(), StatusCode: 599}
+	}
+
+	return HTTPResponse{Error: err.Error()}
+}
+
 func (c HTTPClient) getHTTPClient(request HTTPRequest) *http.Client {
+	timeout := time.Duration(request.GetTimeOut()) * time.Millisecond
+
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: request.GetInsecureRequest()},
+		Dial: (&net.Dialer{
+			Timeout:   timeout,
+			KeepAlive: timeout,
+		}).Dial,
+		TLSHandshakeTimeout:   timeout,
+		ResponseHeaderTimeout: timeout,
+		ExpectContinueTimeout: timeout,
 	}
 
 	return &http.Client{
 		Transport: tr,
-		Timeout:   time.Duration(request.GetTimeOut()) * time.Millisecond,
+		Timeout:   timeout,
 	}
 }
 

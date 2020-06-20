@@ -72,3 +72,16 @@ func TestGetResponseFromApi(t *testing.T) {
 
 	assert.Equal(t, 200, response.StatusCode)
 }
+
+// Handle request timeout
+func TestGetResponseFromApiWithTimeout(t *testing.T) {
+	HTTPClient := isuphttp.HTTPClient{}
+
+	httpRequest := isuphttp.GetHTTPRequest("GET", "https://github.com/")
+
+	httpRequest = httpRequest.SetTimeOut(1)
+
+	response := HTTPClient.HTTPCall(httpRequest)
+
+	assert.Equal(t, 599, response.StatusCode)
+}
