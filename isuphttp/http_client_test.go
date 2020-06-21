@@ -1,6 +1,7 @@
 package isuphttp_test
 
 import (
+	"net/http"
 	"testing"
 
 	"github.com/psenna/isup-http-client/isuphttp"
@@ -70,7 +71,7 @@ func TestGetResponseFromApi(t *testing.T) {
 
 	response := HTTPClient.HTTPCall(httpRequest)
 
-	assert.Equal(t, 200, response.StatusCode)
+	assert.Equal(t, http.StatusOK, response.StatusCode)
 }
 
 // Handle request timeout
@@ -83,5 +84,7 @@ func TestGetResponseFromApiWithTimeout(t *testing.T) {
 
 	response := HTTPClient.HTTPCall(httpRequest)
 
-	assert.Equal(t, 599, response.StatusCode)
+	assert.Equal(t, isuphttp.StatusTimeout, response.StatusCode)
+
+	assert.Equal(t, isuphttp.StatusText(isuphttp.StatusTimeout), response.Error)
 }

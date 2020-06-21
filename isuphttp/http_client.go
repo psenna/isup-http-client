@@ -58,7 +58,7 @@ func (c HTTPClient) httpRequest(request HTTPRequest) HTTPResponse {
 
 func (c HTTPClient) handleRequestError(err error) HTTPResponse {
 	if strings.Contains(err.Error(), "(Client.Timeout exceeded while awaiting headers)") {
-		return HTTPResponse{Error: err.Error(), StatusCode: 599}
+		return HTTPResponse{Error: StatusText(StatusTimeout), StatusCode: StatusTimeout}
 	}
 
 	return HTTPResponse{Error: err.Error()}
