@@ -61,6 +61,10 @@ func (c HTTPClient) handleRequestError(err error) HTTPResponse {
 		return HTTPResponse{Error: StatusText(StatusTimeout), StatusCode: StatusTimeout}
 	}
 
+	if strings.Contains(err.Error(), "TLS handshake error") {
+		return HTTPResponse{Error: StatusText(StatusInvalidCert), StatusCode: StatusInvalidCert}
+	}
+
 	return HTTPResponse{Error: err.Error()}
 }
 

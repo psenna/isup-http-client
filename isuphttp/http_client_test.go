@@ -88,3 +88,6 @@ func TestGetResponseFromApiWithTimeout(t *testing.T) {
 
 	assert.Equal(t, isuphttp.StatusText(isuphttp.StatusTimeout), response.Error)
 }
+
+// Todo: Invalid cert test
+// https://github.com/golang/go/blob/968e18eebd736870a1e3bf06d941dc06e7b20688/src/net/http/client_test.go#L845
