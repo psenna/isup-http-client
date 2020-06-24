@@ -10,12 +10,12 @@ import (
 
 // HTTPRequest A request for a http call
 // If InsecureRequest is true the ssl certificate is not validated
-// TimeOut is the call timeout in milisecounds, default is 2000 ms, max is 60000
+// TimeOut is the call timeout in milisecounds, default is 2000 ms, max is 60000 ms
 type HTTPRequest struct {
 	url             string
 	method          string
 	headers         map[string]interface{}
-	formParams      map[string]interface{}
+	body            map[string]interface{}
 	queryParams     map[string]interface{}
 	insecureRequest bool
 	timeOut         int
@@ -46,14 +46,14 @@ func (h HTTPRequest) SetHeaders(headers map[string]interface{}) HTTPRequest {
 	return h
 }
 
-// SetFormParams Set forms values
-func (h HTTPRequest) SetFormParams(formParams map[string]interface{}) HTTPRequest {
-	if h.formParams == nil {
-		h.formParams = make(map[string]interface{})
+// SetBody Set forms values
+func (h HTTPRequest) SetBody(body map[string]interface{}) HTTPRequest {
+	if h.body == nil {
+		h.body = make(map[string]interface{})
 	}
 
-	for index, value := range formParams {
-		h.formParams[index] = value
+	for index, value := range body {
+		h.body[index] = value
 	}
 
 	return h
@@ -106,7 +106,7 @@ func (h HTTPRequest) GetInsecureRequest() bool {
 // ToGoHTTPRequest Create a go http.Request from a HTTPRequest
 func (h HTTPRequest) ToGoHTTPRequest() (*http.Request, error) {
 
-	body, err := json.Marshal(h.formParams)
+	body, err := json.Marshal(h.body)
 
 	if err != nil {
 		return nil, err
