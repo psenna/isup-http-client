@@ -15,10 +15,10 @@ func TestGetMockResponse(t *testing.T) {
 		apiMethod        string
 		apiURL           string
 	}{
-		{isuphttp.HTTPResponse{}, isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
-		{isuphttp.HTTPResponse{Method: "POST", URL: "localhost:8080/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
-		{isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/v2/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
-		{isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 200}, "GET", "localhost:8080/api"},
+		{isuphttp.HTTPResponse{}, isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 404}, isuphttp.GET, "localhost:8080/api"},
+		{isuphttp.HTTPResponse{Method: isuphttp.POST, URL: "localhost:8080/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
+		{isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/v2/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
+		{isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 200}, "GET", "localhost:8080/api"},
 	}
 
 	for _, test := range tests {
@@ -42,10 +42,10 @@ func TestGetResponseMockEnable(t *testing.T) {
 		apiMethod        string
 		apiURL           string
 	}{
-		{isuphttp.HTTPResponse{}, isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
-		{isuphttp.HTTPResponse{Method: "POST", URL: "localhost:8080/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
-		{isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/v2/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
-		{isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: "GET", URL: "localhost:8080/api", StatusCode: 200}, "GET", "localhost:8080/api"},
+		{isuphttp.HTTPResponse{}, isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 404}, isuphttp.GET, "localhost:8080/api"},
+		{isuphttp.HTTPResponse{Method: isuphttp.POST, URL: "localhost:8080/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
+		{isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/v2/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 404}, "GET", "localhost:8080/api"},
+		{isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 200}, isuphttp.HTTPResponse{Method: isuphttp.GET, URL: "localhost:8080/api", StatusCode: 200}, "GET", "localhost:8080/api"},
 	}
 
 	for _, test := range tests {
@@ -67,7 +67,7 @@ func TestGetResponseMockEnable(t *testing.T) {
 func TestGetResponseFromApi(t *testing.T) {
 	HTTPClient := isuphttp.HTTPClient{}
 
-	httpRequest := isuphttp.GetHTTPRequest("GET", "https://github.com/")
+	httpRequest := isuphttp.GetHTTPRequest(isuphttp.GET, "https://github.com/")
 
 	response := HTTPClient.HTTPCall(httpRequest)
 
@@ -78,7 +78,7 @@ func TestGetResponseFromApi(t *testing.T) {
 func TestGetResponseFromApiWithTimeout(t *testing.T) {
 	HTTPClient := isuphttp.HTTPClient{}
 
-	httpRequest := isuphttp.GetHTTPRequest("GET", "https://github.com/")
+	httpRequest := isuphttp.GetHTTPRequest(isuphttp.GET, "https://github.com/")
 
 	httpRequest = httpRequest.SetTimeOut(1)
 

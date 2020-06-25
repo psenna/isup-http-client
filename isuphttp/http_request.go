@@ -29,7 +29,7 @@ const (
 
 // GetHTTPRequest Instantiate a HTTP request object
 func GetHTTPRequest(method string, url string) HTTPRequest {
-	h := HTTPRequest{url: url, method: method, timeOut: timeOut}
+	h := HTTPRequest{url: url, method: strings.ToUpper(method), timeOut: timeOut}
 
 	return h
 }
@@ -46,7 +46,18 @@ func (h HTTPRequest) SetHeaders(headers map[string]interface{}) HTTPRequest {
 	return h
 }
 
-// SetBody Set forms values
+// SetHeaderValue Set a header value
+func (h HTTPRequest) SetHeaderValue(name string, value interface{}) HTTPRequest {
+	if h.headers == nil {
+		h.headers = make(map[string]interface{})
+	}
+
+	h.headers[name] = value
+
+	return h
+}
+
+// SetBody Set body values
 func (h HTTPRequest) SetBody(body map[string]interface{}) HTTPRequest {
 	if h.body == nil {
 		h.body = make(map[string]interface{})
