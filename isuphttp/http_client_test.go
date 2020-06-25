@@ -62,6 +62,22 @@ func TestGetResponseMockEnable(t *testing.T) {
 	}
 }
 
+// Handle request timeout
+// todo: make with httptest
+func TestGetResponseFromApiWithTimeout(t *testing.T) {
+	HTTPClient := isuphttp.HTTPClient{}
+
+	httpRequest := isuphttp.GetHTTPRequest(isuphttp.GET, "https://www.ufms.br/")
+
+	httpRequest = httpRequest.SetTimeOut(1)
+
+	response := HTTPClient.HTTPCall(httpRequest)
+
+	assert.Equal(t, isuphttp.StatusTimeout, response.StatusCode)
+
+	assert.Equal(t, isuphttp.StatusText(isuphttp.StatusTimeout), response.Error)
+}
+
 // Get response from a api
 // Not a perfect test, but work as long as github is up and you have internet :)
 func TestGetResponseFromApi(t *testing.T) {
@@ -72,21 +88,6 @@ func TestGetResponseFromApi(t *testing.T) {
 	response := HTTPClient.HTTPCall(httpRequest)
 
 	assert.Equal(t, http.StatusOK, response.StatusCode)
-}
-
-// Handle request timeout
-func TestGetResponseFromApiWithTimeout(t *testing.T) {
-	HTTPClient := isuphttp.HTTPClient{}
-
-	httpRequest := isuphttp.GetHTTPRequest(isuphttp.GET, "https://github.com/")
-
-	httpRequest = httpRequest.SetTimeOut(1)
-
-	response := HTTPClient.HTTPCall(httpRequest)
-
-	assert.Equal(t, isuphttp.StatusTimeout, response.StatusCode)
-
-	assert.Equal(t, isuphttp.StatusText(isuphttp.StatusTimeout), response.Error)
 }
 
 // Todo: Invalid cert test
