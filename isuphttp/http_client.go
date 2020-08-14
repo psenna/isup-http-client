@@ -15,6 +15,18 @@ type HTTPClient struct {
 	mockResponse map[string]HTTPResponse
 }
 
+// ParallelRequests Make multiple requests parallely
+func (c HTTPClient) ParallelRequests(requests []HTTPRequest) []HTTPResponse {
+	responses := make([]HTTPResponse, len(requests))
+
+	// todo: Parallelize :)
+	for index, request := range requests {
+		responses[index] = c.HTTPCall(request)
+	}
+
+	return responses
+}
+
 // HTTPCall Make a http call
 func (c HTTPClient) HTTPCall(request HTTPRequest) HTTPResponse {
 	if c.mockEnable {

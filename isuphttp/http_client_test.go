@@ -62,6 +62,34 @@ func TestGetResponseMockEnable(t *testing.T) {
 	}
 }
 
+// Get a response with mock enable
+func TestGetResponsesMultipleRequests(t *testing.T) {
+	var tests = []struct {
+		responses []isuphttp.HTTPResponse
+	}{
+		{[]isuphttp.HTTPResponse{{Method: isuphttp.GET, URL: "localhost:8080/api/1", StatusCode: 200}}},
+		{[]isuphttp.HTTPResponse{{Method: isuphttp.GET, URL: "localhost:8080/api/1", StatusCode: 200}, {Method: isuphttp.POST, URL: "localhost:8080/api/2", StatusCode: 500}}},
+		{[]isuphttp.HTTPResponse{{Method: isuphttp.GET, URL: "localhost:8080/api/3", StatusCode: 200}, {Method: isuphttp.POST, URL: "localhost:8080/api/2", StatusCode: 500}, {Method: isuphttp.PUT, URL: "localhost:8080/api/1", StatusCode: 400}}},
+	}
+
+	for _, test := range tests {
+		HTTPClient := isuphttp.HTTPClient{}
+		HTTPClient.SetMockEnable(true)
+
+		requests := make([]isuphttp.HTTPRequest, len(test.responses))
+		for index, response := range test.responses {
+			HTTPClient.AddMockResponse(response, response.Method, response.URL)
+			requests[index] = isuphttp.GetHTTPRequest(response.Method, response.URL)
+		}
+
+		responses := HTTPClient.ParallelRequests(requests)
+
+		for index, response := range responses {
+			assert.True(t, assert.ObjectsAreEqualValues(test.responses[index], response), "The response object are different from the expected response")
+		}
+	}
+}
+
 // Handle request timeout
 // todo: make with httptest
 func TestGetResponseFromApiWithTimeout(t *testing.T) {
