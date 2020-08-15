@@ -11,11 +11,12 @@ import (
 
 // HTTPClient HTTPClient
 type HTTPClient struct {
-	mockEnable   bool
-	mockResponse map[string]HTTPResponse
+	mockEnable     bool
+	mockResponse   map[string]HTTPResponse
+	defaultRequest HTTPRequest
 }
 
-// ParallelRequests Make multiple requests parallely
+// ParallelRequests Make multiple requests parallelly
 func (c HTTPClient) ParallelRequests(requests []HTTPRequest) []HTTPResponse {
 	responses := make([]HTTPResponse, len(requests))
 

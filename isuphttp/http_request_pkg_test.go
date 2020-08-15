@@ -18,7 +18,7 @@ func TestGetHTTPRequestQueryParameters(t *testing.T) {
 		{"GET", "localhost:8080/api", map[string]interface{}{"value1": 12345}, map[string]string{"value1": "12345"}},
 		{"GET", "localhost:8080/api", map[string]interface{}{"value1": true}, map[string]string{"value1": "true"}},
 		{"GET", "localhost:8080/api", map[string]interface{}{"value1": "qqCoisa", "1234": true}, map[string]string{"value1": "qqCoisa", "1234": "true"}},
-		{"GET", "localhost:8080/api", map[string]interface{}{"value1": "qqCoisa", "1234": true, "asdasd": 11.6}, map[string]string{"value1": "qqCoisa", "1234": "true", "asdasd": "11.6"}},
+		{"GET", "localhost:8080/api", map[string]interface{}{"value1": "qqCoisa", "1234": false, "asdasd": 11.6}, map[string]string{"value1": "qqCoisa", "1234": "false", "asdasd": "11.6"}},
 	}
 
 	for _, test := range tests {

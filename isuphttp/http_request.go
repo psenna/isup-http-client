@@ -17,6 +17,7 @@ type HTTPRequest struct {
 	headers         map[string]interface{}
 	body            map[string]interface{}
 	queryParams     map[string]interface{}
+	cookies         map[string]interface{}
 	insecureRequest bool
 	timeOut         int
 }
@@ -161,4 +162,19 @@ func (h HTTPRequest) getURLWithQueryParans() (url string) {
 	}
 
 	return
+}
+
+// SetContentType Set the request Content-Type header
+func (h HTTPRequest) SetContentType(contentType string) HTTPRequest {
+	return h.SetHeaderValue("Content-Type", contentType)
+}
+
+// SetAccept Set the request Accept header
+func (h HTTPRequest) SetAccept(accept string) HTTPRequest {
+	return h.SetHeaderValue("Accept", accept)
+}
+
+// SetAuthorization Set the request Authorization header
+func (h HTTPRequest) SetAuthorization(authorization string) HTTPRequest {
+	return h.SetHeaderValue("Authorization", authorization)
 }
